@@ -36,8 +36,10 @@ function picker(command, name) {
       client.get('statuses/user_timeline', {count: 20}, function(error, tweets, response) {
         for (i=0; i<tweets.length; i++) {
           console.log(tweets[i].text);
+          fs.appendFile('log.txt', tweets[i].text + '\n', function(err) {});
         }
       });
+      fs.appendFile('log.txt', '\n-----------------\n\n', function(err) {});
       break;
     case 'spotify-this-song':
       spotify.search({type: 'track', query: name}, function(err, data) {
@@ -47,12 +49,17 @@ function picker(command, name) {
         else {
           for (i=0;i<data.tracks.items[0].artists.length;i++) {
             console.log("Artist: " + data.tracks.items[0].artists[i].name);
+            fs.appendFile('log.txt', "Artist: " + data.tracks.items[0].artists[i].name + '\n', function(err) {});
           }
           console.log("Song Name: " + data.tracks.items[0].name);
+          fs.appendFile('log.txt', "Song Name: " + data.tracks.items[0].name + '\n', function(err) {});
           console.log("Spotify URL: " + data.tracks.items[0].external_urls.spotify);
+          fs.appendFile('log.txt', "Spotify URL: " + data.tracks.items[0].external_urls.spotify + '\n', function(err) {});
           console.log("Album Name: " + data.tracks.items[0].album.name);
+          fs.appendFile('log.txt', "Album Name: " + data.tracks.items[0].album.name + '\n', function(err) {});
         }
       });
+      fs.appendFile('log.txt', '\n-----------------\n\n', function(err) {});
       break;
     case 'movie-this':
       if (name == undefined || name == "") {
@@ -70,10 +77,21 @@ function picker(command, name) {
           console.log("Actors: " + JSON.parse(body).Actors);
           console.log("Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating);
           console.log("URL: " + JSON.parse(body).tomatoURL);
+          fs.appendFile('log.txt', "Title: " + JSON.parse(body).Title + '\n'
+            + "Year: " + JSON.parse(body).Year + '\n'
+            + "IMDB Rating: " + JSON.parse(body).imdbRating + '\n'
+            + "Country: " + JSON.parse(body).Country + '\n'
+            + "Language: " + JSON.parse(body).Language + '\n'
+            + "Plot: " + JSON.parse(body).Plot + '\n'
+            + "Actors: " + JSON.parse(body).Actors + '\n'
+            + "Rotten Tomatoes Rating: " + JSON.parse(body).tomatoRating + '\n'
+            + "URL: " + JSON.parse(body).tomatoURL + '\n'
+            , function(err) {});
         }
       });
+      fs.appendFile('log.txt', '\n-----------------\n\n', function(err) {});
       break;
     default:
       console.log("Not a valid selection");
-  }
+  } 
 }
